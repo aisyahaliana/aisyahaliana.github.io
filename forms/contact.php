@@ -1,44 +1,26 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+   $name = $_POST['name'];
+   $visitor_email = $_POST['email'];
+   $subject = $_POST['subject'];
+   $message = $_POST['message'];
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'aisyahaliana77@gmail.com';
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+   $email_from = 'aisyahaliana@aisyahaliana.github.io';
+   $email_subject = "New form submission";
+   $email_body = "User Name: $name.\n".
+                   "User Email: $visitor_email.\n".
+                     "Subject: $subject.\n.
+                       "User Message: $message.\n";
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
-  $contact->message = $_POST['message'];
+   $to = "aisyahaliana77@gmail.com";
+   $headers = "From: $email_from\r\n";
+   $headers .= "Reply-To: $visitor_email \r\n";
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+   mail($to,$email_subject,$email_body,$headers);
 
-  $contact->add_name( $_POST['name'], 'From');
-  $contact->add_email( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+   header("Location: contact.html");
 
-  echo $contact->send();
+
 
 ?>
 
